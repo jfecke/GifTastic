@@ -1,0 +1,53 @@
+#tagarea {
+    width: 90%;
+    margin: 20px auto;
+    border: 5px solid black;
+}
+
+.tags {
+    border-radius: 25px;
+    background: #0086F1;
+    color: white;
+    width: 100px;
+    height: 25px; 
+    text-align: center;
+    padding-top: 5px;
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#gifarea{
+    width: 70%;
+    margin: 20px;
+    border: 5px solid orange;
+    display: inline-block;
+}
+
+#formarea {
+    width: 20%;
+    border: 5px solid red;
+    display: inline-block;
+    margin-top: 20px;
+    vertical-align: top;
+}
+
+#giftext{
+    width: 90%;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#submit{
+    background: #0086F1;
+    color: white;
+    width: 100px;
+    height: 25px;
+    border-radius: 25px;
+    padding-top: 5px;
+    margin-top: 10px;
+}
