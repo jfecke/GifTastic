@@ -8,7 +8,7 @@ var gify = {
             newElm.on("click", function() {
                 $("#gifarea").empty();
                 var content = this.textContent;
-                var GIFobj = $.get("http://api.giphy.com/v1/gifs/search?q=" + content  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit=5");
+                var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + content  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit=5");
                 GIFobj.done(function(data) { 
                     for (var j=0; j <= data.data.length-1; j++) {
                         var newGIF = $("<img>");
