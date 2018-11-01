@@ -10,13 +10,7 @@ var gify = {
             newElm.on("click", function() {
                 $("#gifarea").empty();
                 var content = this.textContent;
-                if (content == gify.currentTag) {
-                    gify.more += 10;
-                    console.log(gify.more);
-                } else {
-                    gify.more = 10;
-                }
-                var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + content  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more));
+                var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + content  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit=10");
                 GIFobj.done(function(data) { 
                    
                     for (var j=0; j <= data.data.length-1; j++) {
@@ -30,7 +24,8 @@ var gify = {
                         })
                         $("#gifarea").append(newGIF)
                     }
-                    gify.currentTag = content;   
+                    gify.currentTag = content;
+                    gify.more = 10;   
                 })
             })
             $("#tagarea").append(newElm);
@@ -50,12 +45,13 @@ $("#submit").on("click", function(){
 })
 
 $("#more").on("click", function(){
-    $("#gifarea").empty();
-    gify.more += 10;
-    var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + gify.currentTag  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more));
+    
+    var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + gify.currentTag  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more+10));
     GIFobj.done(function(data) { 
-       
-        for (var j=0; j <= data.data.length-1; j++) {
+       console.log(gify.more)
+       console.log(data.data.length)
+        for (var j=gify.more; j <= data.data.length-1; j++) {
+            console.log(j)
             var newGIF = $("<img>");
             newGIF.attr("src", data.data[j].images.fixed_width_still.url)
             newGIF.attr("alt", data.data[j].images.fixed_width.url) 
@@ -66,5 +62,7 @@ $("#more").on("click", function(){
             })
             $("#gifarea").append(newGIF)
         }
+        gify.more += 10;
     })
+    
 })
