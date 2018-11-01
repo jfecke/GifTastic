@@ -51,3 +51,28 @@ h1 {
     padding-top: 5px;
     margin-top: 10px;
 }
+
+img {
+    margin: 5px;
+}
+
+#btn-holder{
+    width: 70%;
+    border: 5px solid purple;
+    display: block;
+}
+
+#center {
+    width: 150px;
+    margin: 0 auto;
+}
+
+#more {
+    background: #0086F1;
+    color: white;
+    width: 150px;
+    height: 40px;
+    padding-top: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
