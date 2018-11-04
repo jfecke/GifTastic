@@ -3,6 +3,15 @@ var gify = {
     more: 10,
     currentTag: "",
     favorites: [],
+    removeFavorite: function(badelement) {
+        var tempArray = [];
+        for (var i = 0; i < gify.favorites.length; i++) {
+            if (gify.favorites[i] != badelement) {
+                tempArray.push(gify.favorites[i])
+            }
+        }
+        gify.favorites = tempArray;
+    },
     makeCookie: function() {
         var tempTXT = "";
         for (var i = 0; i < gify.favorites.length; i++) {
@@ -21,7 +30,7 @@ var gify = {
         } else {
             var splitcookie = cookies.split(";");
             gify.favorites = splitcookie[0].split(",");
-            gify.favorites.splice(gify.favorites.length-1)
+            gify.favorites.pop();
         }
     },
     makeFavorites: function() {
@@ -63,7 +72,7 @@ var gify = {
                         gify.makeCookie();
                         $(this).text("Remove")
                     } else {
-                        var dump = gify.favorites.splice(gify.favorites.indexOf(link));
+                        gify.removeFavorite(link);
                         if (gify.favorites.length == 0) {
                             document.cookie = "";
                         }
@@ -82,9 +91,10 @@ var gify = {
         $("#btn-holder").css("display","block")
         for (var j=0; j <= response.length-1; j++) {
             var newGIF = $("<img>");
-            newGIF.attr("src", response[j].images.fixed_width_still.url)
-            newGIF.attr("data-move", response[j].images.fixed_width.url)
-            newGIF.attr("data-still", response[j].images.fixed_width_still.url)
+            newGIF.attr("src", response[j].images.original_still.url)
+            newGIF.attr("id", response[j].id)
+            newGIF.attr("data-move", response[j].images.original.url)
+            newGIF.attr("data-still", response[j].images.original_still.url)
             newGIF.attr("data-state", "still")
             newGIF.on("click", function(){
                 if ($(this).attr("data-state")== "still") {
@@ -104,14 +114,17 @@ var gify = {
             var downBtn = $("<button>").text("Download");
             newBtn.addClass("btn");
             downBtn.addClass("btn");
+            //console.log(JSON.stringify(response[j]))
+            //console.log(response[j])
             newBtn.on("click", function(){
                 var link = this.parentElement.children[0].getAttribute("data-still");
+                var gifid = this.parentElement.children[0].id;
                 if (gify.favorites.indexOf(link) < 0) {
                     gify.favorites.push(link);
                     gify.makeCookie();
                     $(this).text("Remove")
                 } else {
-                    var dump = gify.favorites.splice(gify.favorites.indexOf(link));
+                    gify.removeFavorite(link);
                     $(this).text("Add Favorite")
                 }
             })
@@ -124,9 +137,9 @@ var gify = {
     makeMore: function(response){
         for (var j=gify.more; j <= response.length-1; j++) {
             var newGIF = $("<img>");
-            newGIF.attr("src", response[j].images.fixed_width_still.url)
-            newGIF.attr("data-move", response[j].images.fixed_width.url)
-            newGIF.attr("data-still", response[j].images.fixed_width_still.url)
+            newGIF.attr("src", response[j].images.original_still.url)
+            newGIF.attr("data-move", response[j].images.original.url)
+            newGIF.attr("data-still", response[j].images.original_still.url)
             newGIF.attr("data-state", "still")
             newGIF.on("click", function(){
                 if ($(this).attr("data-state")== "still") {
@@ -149,12 +162,13 @@ var gify = {
             downBtn.addClass("btn");
             newBtn.on("click", function(){
                 var link = this.parentElement.children[0].getAttribute("data-still");
+
                 if (gify.favorites.indexOf(link) < 0) {
                     gify.favorites.push(link);
                     gify.makeCookie();
                     $(this).text("Remove Favorite")
                 } else {
-                    var dump = gify.favorites.splice(gify.favorites.indexOf(link));
+                    gify.removeFavorite(link);
                     $(this).text("Add Favorite")
                 }
             })
@@ -209,3 +223,6 @@ $("#more").on("click", function(){
     }
 })
 
+$.get("https://api.giphy.com/v1/gifs?ids=" + "KzGCAlMiK6hQQ"  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd").done(function(response) {
+        console.log(response.data)
+    })
