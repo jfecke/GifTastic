@@ -87,4 +87,6 @@ img {
     display: inline-block;
     width: 49%;
     height: 30px;
+    border-radius: 25px;
+    font-size: 12px;
 }

@@ -6,7 +6,7 @@ var gify = {
     makeCookie: function() {
         var tempTXT = "";
         for (var i = 0; i < gify.favorites.length; i++) {
-            tempTXT += i + ",";
+            tempTXT += gify.favorites[i] + ",";
         }
         var d = new Date();
         d.setTime(d.getTime() + (14*24*60*60*1000));
@@ -18,9 +18,9 @@ var gify = {
         var cookies = document.cookie;
         if (cookies == "") {
 
-        } else {
+        } else if (cookies.isArray =="Array") {
             var splitcookie = cookies.split(";");
-            gify.favorites = splitcookie.split(",");
+            gify.favorites = splitcookie[0].split(",");
         }
     },
     makeFavorites: function() {
