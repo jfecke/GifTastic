@@ -10,17 +10,18 @@ var gify = {
         }
         var d = new Date();
         d.setTime(d.getTime() + (14*24*60*60*1000));
-        var expires = "expires="+ d.toUTCString();
+        var expires = "; expires="+ d.toUTCString();
         var expiration = "; expires=Thu, 18 Dec 2018 12:00:00 UTC"
-        document.cookie = tempTXT + "; expires=" + expires;
+        document.cookie = tempTXT + expires;
     },
     getCookie: function() {
         var cookies = document.cookie;
         if (cookies == "") {
 
-        } else if (cookies.isArray =="Array") {
+        } else {
             var splitcookie = cookies.split(";");
             gify.favorites = splitcookie[0].split(",");
+            gify.favorites.splice(gify.favorites.length-1)
         }
     },
     makeFavorites: function() {
@@ -58,6 +59,9 @@ var gify = {
                         $(this).text("Remove Favorite")
                     } else {
                         var dump = gify.favorites.splice(gify.favorites.indexOf(link));
+                        if (gify.favorites.length == 0) {
+                            document.cookie = "";
+                        }
                         $(this).text("Add Favorite")
                     }
             })
