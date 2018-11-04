@@ -29,6 +29,7 @@ var gify = {
         newElm.text("Favorites");
         newElm.addClass("tags");
         newElm.on("click", function(){
+            gify.currentTag = "";
             $("#gifarea").empty();
             for (var j=0; j < gify.favorites.length; j++) {
                 var newGIF = $("<img>");
@@ -47,7 +48,11 @@ var gify = {
                     }
                 })
                 var newDiv = $("<div>").addClass("cont");
-                var newBtn = $("<button>").text("Add Favorite");
+                if (gify.favorites.indexOf(newGIF.attr("data-still")) >= 0) {
+                    var newBtn = $("<button>").text("Remove")
+                } else {
+                    var newBtn = $("<button>").text("Add Favorite");
+                }
                 var downBtn = $("<button>").text("Download");
                 newBtn.addClass("btn");
                 downBtn.addClass("btn");
@@ -56,7 +61,7 @@ var gify = {
                     if (gify.favorites.indexOf(link) < 0) {
                         gify.favorites.push(link);
                         gify.makeCookie();
-                        $(this).text("Remove Favorite")
+                        $(this).text("Remove")
                     } else {
                         var dump = gify.favorites.splice(gify.favorites.indexOf(link));
                         if (gify.favorites.length == 0) {
@@ -74,6 +79,7 @@ var gify = {
         $("#tagarea").append(newElm);
     },
     makeGif: function(response) {
+        $("#btn-holder").css("display","block")
         for (var j=0; j <= response.length-1; j++) {
             var newGIF = $("<img>");
             newGIF.attr("src", response[j].images.fixed_width_still.url)
@@ -91,7 +97,7 @@ var gify = {
             })
             var newDiv = $("<div>").addClass("cont");
             if (gify.favorites.indexOf(newGIF.attr("data-still")) >= 0) {
-                var newBtn = $("<button>").text("Remove Favorite")
+                var newBtn = $("<button>").text("Remove")
             } else {
                 var newBtn = $("<button>").text("Add Favorite");
             }
@@ -103,7 +109,7 @@ var gify = {
                 if (gify.favorites.indexOf(link) < 0) {
                     gify.favorites.push(link);
                     gify.makeCookie();
-                    $(this).text("Remove Favorite")
+                    $(this).text("Remove")
                 } else {
                     var dump = gify.favorites.splice(gify.favorites.indexOf(link));
                     $(this).text("Add Favorite")
@@ -117,7 +123,6 @@ var gify = {
     },
     makeMore: function(response){
         for (var j=gify.more; j <= response.length-1; j++) {
-            console.log(j)
             var newGIF = $("<img>");
             newGIF.attr("src", response[j].images.fixed_width_still.url)
             newGIF.attr("data-move", response[j].images.fixed_width.url)
@@ -135,7 +140,7 @@ var gify = {
             var newDiv = $("<div>").addClass("cont");
             var newDiv = $("<div>").addClass("cont");
             if (gify.favorites.indexOf(newGIF.attr("data-still")) >= 0) {
-                var newBtn = $("<button>").text("Remove Favorite")
+                var newBtn = $("<button>").text("Remove")
             } else {
                 var newBtn = $("<button>").text("Add Favorite");
             }
@@ -183,21 +188,24 @@ gify.getCookie();
 gify.populateArea();
 
 $("#submit").on("click", function(){
-    if ($("#giftext").val().length > 0) {
+    if ($("#giftext").val().length > 0 && gify.topics.indexOf($("#giftext").val()) < 0) {
         $("#tagarea").empty();
         gify.topics.push($("#giftext").val());
         gify.populateArea();
         $("#giftext").val("");
+    }  else {
+        $("#giftext").val("");
     }
+
 })
 
 $("#more").on("click", function(){
-    
-    var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + gify.currentTag  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more+10));
+    if (gify.currentTag != "") {
+        var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + gify.currentTag  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more+10));
     GIFobj.done(function(data) { 
         gify.makeMore(data.data)
         gify.more += 10;
     })
-    
+    }
 })
 
