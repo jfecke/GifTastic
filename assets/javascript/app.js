@@ -12,7 +12,7 @@ var gify = {
                 var content = this.textContent;
                 var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + content  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit=10");
                 GIFobj.done(function(data) { 
-                   
+                   console.log(data.data)
                     for (var j=0; j <= data.data.length-1; j++) {
                         var newGIF = $("<img>");
                         newGIF.attr("src", data.data[j].images.fixed_width_still.url)
@@ -22,7 +22,13 @@ var gify = {
                             this.src = this.alt;
                             this.alt = swap;
                         })
-                        $("#gifarea").append(newGIF)
+                        var newLink = $("<a>")
+                        newLink.attr("href", data.data[j].images.fixed_width.url)
+                        newLink.attr("download", "this.gif");
+                        newLink.addClass("link");
+                        newLink.text("Download")
+                        newLink.append(newGIF)
+                        $("#gifarea").append(newLink)
                     }
                     gify.currentTag = content;
                     gify.more = 10;   
@@ -48,13 +54,12 @@ $("#more").on("click", function(){
     
     var GIFobj = $.get("https://api.giphy.com/v1/gifs/search?q=" + gify.currentTag  +"&api_key=C4vD2rTzNQERymftt8uTanePEkBN0ZEd&limit="+String(gify.more+10));
     GIFobj.done(function(data) { 
-       console.log(gify.more)
-       console.log(data.data.length)
         for (var j=gify.more; j <= data.data.length-1; j++) {
             console.log(j)
             var newGIF = $("<img>");
             newGIF.attr("src", data.data[j].images.fixed_width_still.url)
             newGIF.attr("alt", data.data[j].images.fixed_width.url) 
+            newGIF.attr("download", data.data[j].images.fixed_width.url);
             newGIF.on("click", function(){
                 var swap = this.src;
                 this.src = this.alt;
@@ -66,3 +71,4 @@ $("#more").on("click", function(){
     })
     
 })
+

@@ -76,3 +76,14 @@ img {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.link {
+    display: inline-block;
+    background: pink;
+    z-index: 10;
+    color: white;
+}
+
+.link:hover {
+    visibility: visible;
+}
