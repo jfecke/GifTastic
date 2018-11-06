@@ -18,6 +18,7 @@ var gify = {
             }
         }
         gify.favoriteID = tempArray;
+        gify.makeCookie();
     },
     makeCookie: function() {
         var tempTXT = "";
