@@ -1,5 +1,5 @@
 var gify = {
-    topics: ["tigers","gorillas","hawks"],
+    topics: ["tiger","gorilla","hawk", "bat", "dog", "cat", "bird", "monkey", "spider", "wolf", "panther"],
     more: 10,
     currentTag: "",
     favorites: [],
@@ -28,7 +28,6 @@ var gify = {
         var d = new Date();
         d.setTime(d.getTime() + (14*24*60*60*1000));
         var expires = "; expires="+ d.toUTCString();
-        var expiration = "; expires=Thu, 18 Dec 2018 12:00:00 UTC"
         document.cookie = tempTXT + expires;
     },
     getCookie: function() {
@@ -111,9 +110,7 @@ var gify = {
             } else {
                 var newBtn = $("<button>").text("Add Favorite");
             }
-            var downBtn = $("<button>").text("Download");
             newBtn.addClass("btn");
-            downBtn.addClass("btn");
             newBtn.on("click", function(){
                 var gifid = this.parentElement.children[0].children[0].id;
                 if (gify.favoriteID.indexOf(gifid) < 0) {
@@ -125,11 +122,8 @@ var gify = {
                     $(this).text("Add Favorite");
                 }
             })
-            btnDiv = $("<div>").attr("style", "width:200px; height: 30px")
-            centerDiv = $("<div>").attr("style", "width:100px; height: 30px")
-            centerDiv.addClass("center")
             databtn = $("<button>").text("meta-data");
-            databtn.addClass("btn1")
+            databtn.addClass("btn")
             metaDiv = $("<div>").addClass("meta")
             metaDiv.css("display", "none")
             var title = $("<p>").text("Title: " + response[j].title) 
@@ -141,7 +135,7 @@ var gify = {
             metaDiv.append($("<br>"))
             metaDiv.append(frames)
             databtn.on("click", function() {
-                var image = this.parentElement.parentElement.parentElement.children[0].children[1];
+                var image = this.parentElement.children[0].children[1];
                 if (image.style.display == "none") {
                     image.style.display = "block"
                 }
@@ -150,14 +144,11 @@ var gify = {
                 }
             })
             imgDiv = $("<div>").addClass("imgcont")
-            centerDiv.append(databtn)
-            btnDiv.append(centerDiv)
             imgDiv.append(newGIF);
             imgDiv.append(metaDiv);
             newDiv.append(imgDiv);
             newDiv.append(newBtn);
-            newDiv.append(downBtn);
-            newDiv.append(btnDiv)
+            newDiv.append(databtn);
             $("#gifarea").append(newDiv);
     } 
 }
